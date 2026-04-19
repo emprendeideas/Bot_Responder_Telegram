@@ -56,7 +56,7 @@ def detectar_idioma(texto):
     "tudo bem", "blz", "beleza",
     "obrigado", "obrigada", "vlw", "valeu",
     "preço", "preco", "valor", "quanto custa",
-    "info", "informação", "informacoes", "detalhes",
+    "informação", "informacoes", "detalhes",
     "interessado", "tenho interesse", "quero",
     "ajuda", "suporte",
     "começar", "comecar", "iniciar",
@@ -74,6 +74,11 @@ def detectar_idioma(texto):
 
     try:
         lang = detect(texto)
+
+        # Si detecta portugués pero el texto es corto, puede ser error
+        if lang == "pt" and len(texto) <= 4:
+            return "es"
+
         if lang in ["es","en","pt"]:
             return lang
         else:
@@ -220,8 +225,7 @@ Convertimos tu indicador o estrategia en un sistema automático que opere direct
 🔹 Iniciamos el desarrollo
 
 ⏰ Entrega rápida:
-En aproximadamente 24 horas recibirás tu sistema automatizado en tu correo ✉️
-✔️ Listo para usar en tu broker
+En aproximadamente 24 horas recibirás tu sistema automatizado en tu correo ✉️ listo para usar en tu broker
 
 🚀 Opera de forma automática y lleva tu trading al siguiente nivel.""","precio":"""💰 Planes de Automatización
 
@@ -309,6 +313,9 @@ Si inviertes 100 USD → recibes 150 USD en total
 ⏳ Importante:
 El período de operación comienza el mismo día en que realizas tu depósito.
 
+📊 Puedes ver pagos reales y testimonios aquí:
+👉🏼 https://t.me/inversioneess
+
 🔥 Es una opción ideal si buscas generar ingresos sin necesidad de operar por tu cuenta.""","enlace":"""📋 Requisitos para ingresar al Fondo de Inversión FDI
 
 Para comenzar es muy sencillo 👇
@@ -334,6 +341,12 @@ usuarios = {}
 
 def cargar_usuarios():
     global usuarios
+
+    # 🔥 CREAR ARCHIVO SI NO EXISTE
+    if not os.path.exists("usuarios.json"):
+        with open("usuarios.json", "w") as f:
+            json.dump({}, f)
+
     try:
         with open("usuarios.json","r") as f:
             usuarios = json.load(f)
@@ -437,10 +450,22 @@ async def handler(event):
     es_nuevo=registrar_usuario(user_id,nombre)
     user = usuarios[user_id]
 
-    # DETECTAR SOLO SI NO HAY IDIOMA O ES DEFAULT
-    if (not user.get("idioma") or user.get("idioma") == "es"):
+    # DETECTAR IDIOMA SOLO SI EL USUARIO ES NUEVO
+    if es_nuevo:
         if any(c.isalpha() for c in texto):
-            user["idioma"] = detectar_idioma(texto)
+
+            palabras_es_clave = ["hola", "buenas", "gracias"]
+ 
+            idioma_detectado = detectar_idioma(texto)
+
+            # 🔥 FORZAR ESPAÑOL SI CONTIENE PALABRAS CLAVE
+            if any(p in texto for p in palabras_es_clave):
+                idioma_detectado = "es"
+
+            elif idioma_detectado not in ["es", "en", "pt"]:
+                idioma_detectado = "es"
+
+            user["idioma"] = idioma_detectado
 
     # NORMALIZAR INPUT
     if user.get("idioma") == "en":
@@ -499,9 +524,7 @@ f"""🟢 CLIENTE QUIERE COMPRAR
         if 0 <= time.localtime().tm_hour < 7:
             await responder(event, "🌙 En este horario Nano no está disponible, pero te atenderá lo más pronto posible. 🤝 Gracias por contactarnos.", user_id)
         else:
-            await responder(event, """Perfecto 👌\n\n💰Métodos de Pago en Cripto
-
-Aceptamos USDT, USDC, BTC y cualquier criptomoneda 🌍🚀
+            await responder(event, """Perfecto 👌\n\nRecibimos USDT, USDC, BTC o cualquier criptomoneda 🌍🚀
 
 Puedes enviar tu pago desde cualquier exchange o wallet de forma rápida y segura ⚡💼
 
