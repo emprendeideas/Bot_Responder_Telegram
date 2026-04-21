@@ -3,16 +3,18 @@ import time
 import random
 import threading
 import os
+import StringSession
 
 from flask import Flask
 from telethon import TelegramClient, events
 from langdetect import detect
 from deep_translator import GoogleTranslator
+from telethon.sessions
 
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
 
-client = TelegramClient("render_session", api_id, api_hash)
+client = TelegramClient(StringSession(os.getenv("SESSION_STRING")), api_id, api_hash)
 
 # 🔥 SERVIDOR PARA RENDER
 app = Flask(__name__)
