@@ -3,13 +3,13 @@ import time
 import random
 import threading
 import os
-import StringSession
+
 
 from flask import Flask
 from telethon import TelegramClient, events
 from langdetect import detect
 from deep_translator import GoogleTranslator
-from telethon.sessions
+from telethon.sessions import StringSession
 
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
