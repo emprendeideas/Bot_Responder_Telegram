@@ -12,7 +12,7 @@ from deep_translator import GoogleTranslator
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
 
-client = TelegramClient("./render_session", api_id, api_hash)
+client = TelegramClient("render_session", api_id, api_hash)
 
 # 🔥 SERVIDOR PARA RENDER
 app = Flask(__name__)
