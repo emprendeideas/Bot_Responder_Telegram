@@ -409,6 +409,10 @@ def obtener_saludo():
     else:
         return "Buenas noches"
 
+def obtener_hora_actual():
+    tz = pytz.timezone("America/La_Paz")
+    return datetime.now(tz).hour
+
 def obtener_link_usuario(sender):
     if sender.username:
         return f"@{sender.username}"
@@ -530,7 +534,7 @@ f"""🟢 CLIENTE QUIERE COMPRAR
         user["expira"]=time.time()+86400
         guardar_usuarios()
 
-        if 0 <= time.localtime().tm_hour < 7:
+        if 0 <= obtener_hora_actual() < 7:
             await responder(event, "🌙 En este horario Nano no está disponible, pero te atenderá lo más pronto posible. 🤝 Gracias por contactarnos.", user_id)
         else:
             await responder(event, """Perfecto 👌\n\nRecibimos USDT, USDC, BTC o cualquier criptomoneda 🌍🚀
@@ -556,7 +560,7 @@ f"""🟡 CLIENTE SOLICITA SOPORTE
         user["expira"]=time.time()+86400
         guardar_usuarios()
 
-        if 0 <= time.localtime().tm_hour < 7:
+        if 0 <= obtener_hora_actual() < 7:
             await responder(event, "🌙 En este horario Nano no está disponible, pero te atenderá lo más pronto posible. 🤝 Gracias por contactarnos.", user_id)
         else:
             await responder(event, "Genial 👍\n\nEnseguida lo atenderá 👨‍💻", user_id)
