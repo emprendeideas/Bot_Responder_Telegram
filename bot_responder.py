@@ -7,9 +7,9 @@ import os
 
 from flask import Flask
 from telethon import TelegramClient, events
+from telethon.sessions import StringSession
 from langdetect import detect
 from deep_translator import GoogleTranslator
-from telethon.sessions import StringSession
 
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
