@@ -3,6 +3,7 @@ import time
 import random
 import threading
 import os
+import pytz
 
 
 from flask import Flask
@@ -10,6 +11,7 @@ from telethon import TelegramClient, events
 from telethon.sessions import StringSession
 from langdetect import detect
 from deep_translator import GoogleTranslator
+from datetime import datetime
 
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
@@ -397,10 +399,15 @@ def verificar_recordatorios():
         time.sleep(300)
 
 def obtener_saludo():
-    hora=time.localtime().tm_hour
-    if 5<=hora<12: return "Buenos días"
-    elif 12<=hora<19: return "Buenas tardes"
-    else: return "Buenas noches"
+    tz = pytz.timezone("America/La_Paz")  # Bolivia
+    hora = datetime.now(tz).hour
+
+    if 5 <= hora < 12:
+        return "Buenos días"
+    elif 12 <= hora < 19:
+        return "Buenas tardes"
+    else:
+        return "Buenas noches"
 
 def obtener_link_usuario(sender):
     if sender.username:
