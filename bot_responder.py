@@ -445,24 +445,26 @@ Gracias por escribir
 
 Respóndeme con el número 👇"""
 
+IDS_BLOQUEADOS = {8756142735, 8444913830, 1552962337}
+
 @client.on(events.NewMessage(incoming=True))
 async def handler(event):
     if not event.is_private:
         return
 
-    sender=await event.get_sender()
+    sender = await event.get_sender()
     
-    if sender.id == 8756142735:
+    if sender.id in IDS_BLOQUEADOS:
         return
     
-    user_id=str(sender.id)
-    nombre=sender.first_name or "Amigo"
-    texto=event.raw_text.lower().strip()
+    user_id = str(sender.id)
+    nombre = sender.first_name or "Amigo"
+    texto = event.raw_text.lower().strip()
     link_usuario = obtener_link_usuario(sender)
 
-    es_nuevo=registrar_usuario(user_id,nombre)
+    es_nuevo = registrar_usuario(user_id, nombre)
     user = usuarios[user_id]
-
+    
     # DETECTAR IDIOMA SOLO SI EL USUARIO ES NUEVO
     if es_nuevo:
         if any(c.isalpha() for c in texto):
