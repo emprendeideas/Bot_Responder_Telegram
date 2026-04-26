@@ -3,3 +3,4 @@ flask
 langdetect
 deep-translator
 pytz
+feedparser==6.0.11
