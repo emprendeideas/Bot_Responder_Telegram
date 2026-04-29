@@ -4,3 +4,4 @@ langdetect
 deep-translator
 pytz
 feedparser==6.0.11
+pymongo[srv]==3.11
