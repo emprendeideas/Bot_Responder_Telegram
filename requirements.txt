@@ -2,6 +2,5 @@ telethon==1.36.0
 flask
 langdetect
 deep-translator
-pytz
 feedparser==6.0.11
 pymongo[srv]==3.11
