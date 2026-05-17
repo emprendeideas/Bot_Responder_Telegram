@@ -475,10 +475,6 @@ def registrar_usuario(user_id, nombre, sender):
         usuarios[user_id]["ultimo_mensaje"] = time.time()
         usuarios[user_id]["recordatorio_enviado"] = False
 
-        # ✅ ACTUALIZAR access_hash SIEMPRE QUE VUELVA A ESCRIBIR
-        if access_hash:
-            usuarios[user_id]["access_hash"] = access_hash
-            
         guardar_usuario(user_id)
         return False
 
